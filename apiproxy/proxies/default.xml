@@ -2,46 +2,13 @@
 <ProxyEndpoint name="default">
     <Description/>
     <Flows>
-        <Flow name="all">
-            <Description/>
-            <Request/>
-            <Response>
-            </Response>
-            <Condition>(proxy.pathsuffix MatchesPath &quot;/apigee/**&quot;) and (request.verb = &quot;GET&quot;)</Condition>
-        </Flow>
-        <Flow name="forecastweather_node">
-            <Description/>
-            <Request/>
-            <Response>
-            </Response>
-            <Condition>(proxy.pathsuffix MatchesPath &quot;/forecastweather_node/**&quot;) and (request.verb = &quot;GET&quot;)</Condition>
-        </Flow>
-        <Flow name="node">
-            <Description/>
-            <Request/>
-            <Response>
-            </Response>
-            <Condition>(proxy.pathsuffix MatchesPath &quot;/images/**&quot;) and (request.verb = &quot;GET&quot;)</Condition>
-        </Flow>
-        <Flow name="SimpleJavaCallout">
-            <Description/>
-            <Request/>
-            <Response>
-        <!-- Disabled by default - JavaCallout -->
-        <!--    <Step>
-                    <FaultRules/>
-                    <Name>SimpleJavaCallout</Name>
-                </Step> -->
-            </Response>
-            <Condition>(proxy.pathsuffix MatchesPath &quot;/javacallout&quot;) and (request.verb = &quot;GET&quot;)</Condition>
-        </Flow>
     </Flows>
     <PreFlow name="PreFlow">
         <Request/>
         <Response/>
     </PreFlow>
     <HTTPProxyConnection>
-        <BasePath>/v1/facade</BasePath>
+        <BasePath>/v1</BasePath>
         <VirtualHost>default</VirtualHost>
         <VirtualHost>secure</VirtualHost>
     </HTTPProxyConnection>

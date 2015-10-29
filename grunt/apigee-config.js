@@ -50,7 +50,7 @@ exports.xmlconfig = function(env, grunt){
 		{
 			"options": {
 				"xpath": "//ProxyEndpoint/HTTPProxyConnection/BasePath",
-				"value": "/v1/facade"
+				"value": "/mgmt-facade"
 			},
 			"files": {
 				"target/apiproxy/proxies/default.xml": "apiproxy/proxies/default.xml"
@@ -80,7 +80,7 @@ exports.xmlconfig = function(env, grunt){
 		{
 			"options": {
 				"xpath": "//ProxyEndpoint/HTTPProxyConnection/BasePath",
-				"value": "/v1/facade"
+				"value": "/mgmt-facade"
 			},
 			"files": {
 				"target/apiproxy/proxies/default.xml": "apiproxy/proxies/default.xml"
