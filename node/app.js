@@ -10,7 +10,8 @@ var url  = require('url'),
 app.all('/v1**', function(req, res){
 	var url_parts = url.parse(req.url, true);
 	req.pipe(request( url.resolve(apigeeConfig.management_server_url, url_parts.path),
-		function(error, response, body){
+		function(error, responseMgmt, body){
+			console.log( body );
 			async.map(
 				webhooksSubs.resources, //iterate through each resource under /config/webhooks-subscribers
 				function(resource, callback){
@@ -41,10 +42,10 @@ app.all('/v1**', function(req, res){
 				},
 				function(err, result){
 					console.log(result);
-					res.end('done');
+					return(responseMgmt);
 				}
 			 )
-		} ));
+		} )).pipe( res );
 });
 
 app.listen(9000);
