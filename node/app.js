@@ -4,32 +4,47 @@ var express = require('express'),
 var url  = require('url'),
 	path = require('path'),
 	apigeeConfig = require('./config/apigee-config.json'),
-	webhooksSubs = require('./config/webhooks-subscribers.js')();
+	webhooksSubs = require('./config/webhooks-subscribers.js')(),
+	async =require('async');
 
 app.all('/v1**', function(req, res){
 	var url_parts = url.parse(req.url, true);
 	req.pipe(request( url.resolve(apigeeConfig.management_server_url, url_parts.path),
-			function(error, response, body){
-				console.log(body);
-				webhooksSubs.resources.forEach(function(resource){ //iterate through each resource under /config/webhooks-subscribers
+		function(error, response, body){
+			async.map(
+				webhooksSubs.resources, //iterate through each resource under /config/webhooks-subscribers
+				function(resource, callback){
+					console.log(resource.description);
 					var myArray = resource.path.exec(url_parts.pathname);
 					if( myArray && (resource.verb === req.method) ) { // match found based on URL and verb! send request to webhook
-						console.log(resource.description);
-						resource.subscribers.forEach(function(subscriber){ // now find all the subscribers
-							var options = { method : subscriber.verb, uri : subscriber.url, headers : subscriber.headers, qs: subscriber.qs ,
-								body : 'payload={"channel": "#apigee-webhooks", "username": "webhookbot", "text": ' + JSON.stringify(body) + ', "icon_emoji": ":ghost:"}'
-							};
-							request(options, //send the request to the subscriber
-								function(err, response, body){
-									//res.end(body); //we don't care what happens to message sent to the subscriber
-								}
+						console.log(req.method + ' - ' + resource.description);
+						async.map(
+							resource.subscribers,
+							function(subscriber, callback){
+								var options = { method : subscriber.verb, uri : subscriber.url, headers : subscriber.headers, qs: subscriber.qs ,
+									body : 'payload={"channel": "#apigee-webhooks", "username": "webhookbot", "text": ' + JSON.stringify(body) + ', "icon_emoji": ":ghost:"}'
+								};
+								request(options, //send the request to the subscriber
+									function(err, response, body){
+										callback( err, body ); //we don't care what happens to message sent to the subscriber
+									}
+								);
+							},
+							function(err, result){
+								console.log( result );
+								callback( err, result );
+							}
 							);
-						});
+					}else{
+						callback( null );
 					}
-				});
-				res.end('done');
+				},
+				function(err, result){
+					console.log(result);
+					res.end('done');
+				}
+			 )
 		} ));
-	//res.end('done');
 });
 
 app.listen(9000);
@@ -40,3 +55,20 @@ app.listen(9000);
 //console.log(apigeeConfig.management_server_url + url_parts.path);
 //console.log(url.resolve(apigeeConfig.management_server_url, url_parts.path))
 //req.pipe(request( url.resolve(apigeeConfig.management_server_url, url_parts.path) )).pipe(res);
+
+				// webhooksSubs.resources.forEach(function(resource){ //iterate through each resource under /config/webhooks-subscribers
+				// 	var myArray = resource.path.exec(url_parts.pathname);
+				// 	if( myArray && (resource.verb === req.method) ) { // match found based on URL and verb! send request to webhook
+				// 		console.log(resource.description);
+				// 		resource.subscribers.forEach(function(subscriber){ // now find all the subscribers
+				// 			var options = { method : subscriber.verb, uri : subscriber.url, headers : subscriber.headers, qs: subscriber.qs ,
+				// 				body : 'payload={"channel": "#apigee-webhooks", "username": "webhookbot", "text": ' + JSON.stringify(body) + ', "icon_emoji": ":ghost:"}'
+				// 			};
+				// 			request(options, //send the request to the subscriber
+				// 				function(err, response, body){
+				// 					//res.end(body); //we don't care what happens to message sent to the subscriber
+				// 				}
+				// 			);
+				// 		});
+				// 	}
+				// });
