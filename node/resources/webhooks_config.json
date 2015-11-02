@@ -1,0 +1,61 @@
+{
+    "outgoingWebhooks": [
+        {
+            "action": "DEPLOY",
+            "subscribers": [
+                {
+                    "url": "https://ANY_END_POINT",
+                    "queryParams": [
+                        {
+                            "queryParam": "param1",
+                            "value": "val1"
+                        },
+                        {
+                            "queryParam": "param2",
+                            "value": "val2"
+                        }
+                    ],
+                    "headers": [
+                        {
+                            "header": "headerName1",
+                            "value": "header1val"
+                        },
+                        {
+                            "header": "headerName1",
+                            "value": "header1val"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "action": "",
+            "verb": "POST",
+            "subscribers": [
+                {
+                    "url": "https://ANY_END_POINT",
+                    "queryParams": [
+                        {
+                            "queryParam": "param1",
+                            "value": "val1"
+                        },
+                        {
+                            "queryParam": "param2",
+                            "value": "val2"
+                        }
+                    ],
+                    "headers": [
+                        {
+                            "header": "headerName1",
+                            "value": "header1val"
+                        },
+                        {
+                            "header": "headerName1",
+                            "value": "header1val"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

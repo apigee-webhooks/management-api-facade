@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "path": "^0.4.9"
+  },
+  "dependencies": {
+    "async": "^1.5.0"
   }
 }
