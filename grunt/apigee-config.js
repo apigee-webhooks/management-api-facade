@@ -10,7 +10,7 @@ exports.profiles = function(grunt){
 					password : grunt.option('password'), //|| process.env.ae_password, // use ae_username and ae_password are defined as environment variables and no arguments are passed
 					revision : grunt.option('revision'), // provide revision to be undeployed by passing argument as --revision=X
           override : grunt.option('override') || true,
-          delay : grunt.option('delay') || 10
+          delay : grunt.option('delay') || 0
 				},
 				'prod' : {
 					apiproxy : 'facade',

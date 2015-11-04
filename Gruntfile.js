@@ -79,7 +79,12 @@ module.exports = function(grunt) {
 							},[
 								{expand: true, cwd: './target/node/public/', src: ['**'], dest: 'public/' }, // makes all src relative to cwd
 							]),
-
+			"node-config": helper.setNodeResources('./target/node/config/', {
+								mode : 'zip',
+								archive: './target/apiproxy/resources/node/config.zip'
+							},[
+								{expand: true, cwd: './target/node/config/', src: ['**'], dest: 'config/' }, // makes all src relative to cwd
+							]),
 			"node-resources": helper.setNodeResources('./target/node/resources/', {
 								mode : 'zip',
 								archive: './target/apiproxy/resources/node/resources.zip'
