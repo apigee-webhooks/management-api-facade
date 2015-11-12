@@ -6,7 +6,7 @@
 
 var express = require('express'), app = express(), request = require('request');
 var url  = require('url'), path = require('path'), apigeeConfig = require('./config/apigee-config.json'),
-	webhooksSubs = require('./config/webhooks-subscribers.js')(), async =require('async'), webHooks = require('./lib/webhooks');
+	webhooksSubs = require('./config/webhooks-subscribers.json'), async =require('async'), webHooks = require('./lib/webhooks');
 
 app.all('/v1/**', function(req, res){ //listen all requests to /v1/**
 	var body_;
